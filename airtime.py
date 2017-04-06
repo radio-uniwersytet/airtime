@@ -161,4 +161,7 @@ class Schedule(Airtime):
                   'cachep': str(arrow.now().timestamp)
             }
             result = self.session.post(self.url+"/Schedule/event-feed",data=data).json()
+            for event in result['events']:
+                event['start'] = arrow.get(event['start'],'YYYY-MM-DD HH:mm:ss',tzinfo='Europe/Warsaw')
+                event['end'] = arrow.get(event['end'],'YYYY-MM-DD HH:mm:ss',tzinfo='Europe/Warsaw')
             return result['events']
